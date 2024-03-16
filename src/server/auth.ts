@@ -18,36 +18,42 @@ declare module "next-auth" {
   interface Session extends DefaultSession {
     user: DefaultSession["user"] & {
       id: string;
-      // ...other properties
-      // role: UserRole;
     };
   }
-
-  // interface User {
-  //   // ...other properties
-  //   // role: UserRole;
-  // }
 }
 
-/**
- * Options for NextAuth.js used to configure adapters, providers, callbacks, etc.
- *
- * @see https://next-auth.js.org/configuration/options
- */
 export const authOptions: NextAuthOptions = {
   callbacks: {
-    session: ({ session, token }) => ({
-      ...session,
-      user: {
-        ...session.user,
-        id: token.sub,
-      },
-    }),
+    async jwt({ token, account, user }) {
+        // initial sign in
+        if (account && user) return {
+            ...token,
+            accessToken: account.access_token,
+            refreshToken: account.refresh_token,
+            username: account.providerAccountId,
+        }
+
+        // sign in
+        if (token) return token
+
+        // sign out
+        return {}
+    },
+
+    async session({ session, token }) {
+      session.accessToken = token.accessToken;
+      session.user.id = token.username;
+      return session
+    }
   },
   providers: [
     SpotifyProvider({
         clientId: env.SPOTIFY_CLIENT_ID,
         clientSecret: env.SPOTIFY_CLIENT_SECRET,
+        authorization: {
+          url: "https://accounts.spotify.com/authorize",
+          params: { scope: "user-read-email user-read-private user-read-playback-state user-modify-playback-state" },
+        },
     })
   ],
 };

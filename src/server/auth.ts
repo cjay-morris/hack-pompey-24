@@ -52,7 +52,7 @@ export const authOptions: NextAuthOptions = {
         clientSecret: env.SPOTIFY_CLIENT_SECRET,
         authorization: {
           url: "https://accounts.spotify.com/authorize",
-          params: { scope: "user-read-email user-read-private user-read-playback-state user-modify-playback-state" },
+          params: { scope: "user-read-email user-read-private user-top-read user-read-playback-state user-modify-playback-state" },
         },
     })
   ],

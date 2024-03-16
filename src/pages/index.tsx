@@ -90,7 +90,7 @@ export default function Home() {
       )}
       {session && (
         <div className="flex flex-col items-center justify-center space-y-8 pb-4">
-          <div className="flex flex-row items-center justify-center mt-4 space-x-4">
+          <div className="flex flex-row items-center justify-center mt-2 space-x-4">
             <h1 className="text-4xl font-bold text-center mt-10 mb-8">
               Hey {session.user.name ?? "there"}, let&#39;s take a look at your top tracks!
             </h1>

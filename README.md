@@ -1,29 +1,22 @@
-# Create T3 App
+# Hack Pompey 2024 - Spotify Stat App 🎵
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+This is a web app that uses the Spotify API to display a user's top tracks and artists. It was created for Hack Pompey 2024.
 
-## What's next? How do I make an app with this?
+![GIF of the app](./public/demo.gif)
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+Created with [T3 🚀](https://create.t3.gg/).
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+## Installation 🧰
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Drizzle](https://orm.drizzle.team)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+To install packages and run the app:
 
-## Learn More
+```bash
+yarn && yarn dev
+```
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+The project uses NextAuth to authenticate users with Spotify. To access the Spotify API, a `.env` with the following secrets is required:
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
-
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
-
-## How do I deploy this?
-
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+```env
+SPOTIFY_CLIENT_ID=<your client id>
+SPOTIFY_CLIENT_SECRET=<your client secret>
+```

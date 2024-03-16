@@ -1,4 +1,9 @@
-import { signIn, signOut, useSession, getSession } from "next-auth/react";
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+import { signIn, signOut, useSession, getSession, GetSessionParams } from "next-auth/react";
 import Image from 'next/image'
 import { useState } from "react";
 import { useEffect } from "react";
@@ -19,30 +24,37 @@ interface Track {
   preview_url: string
 }
 
+interface Artist {
+  id: string
+  name: string
+  genres: string[]
+  followers: {
+    total: number
+  }
+  popularity: number
+  images: {
+    url: string
+  }[]
+}
+
 export default function Home() {
+  const { data: session, status } = useSession()
   const apiCall = async (url: string) => {
     const response = await fetch(url, {
       headers: {
         'Authorization': `Bearer ${session?.accessToken}`
       }
     })
-    const data = await response.json()
+    const data: any = await response.json()
     return data
   }
 
-  const { data: session, status } = useSession()
   const [shortTermTracks, setShortTermTracks] = useState<Track[]>([])
   const [mediumTermTracks, setMediumTermTracks] = useState<Track[]>([])
   const [longTermTracks, setLongTermTracks] = useState<Track[]>([])
-  const [artists, setArtists] = useState<Track[]>([])
-  const [selectedTerm, setSelectedTerm] = useState<'short_term' | 'medium_term' | 'long_term' | 'artists'>('')
+  const [artists, setArtists] = useState<Artist[]>([])
+  const [selectedTerm, setSelectedTerm] = useState<'short_term' | 'medium_term' | 'long_term' | 'artists' | undefined>()
   const trackCss = "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 px-4"
-  console.log(session, status)
-
-  const getMostListenedToArtists = async () => {
-    const data = await apiCall('https://api.spotify.com/v1/me/top/artists?time_range=short_term&limit=21')
-    console.log(data)
-  }
 
   useEffect(() => {
     if (session) {
@@ -231,7 +243,7 @@ export default function Home() {
   );
 }
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps(context: GetSessionParams | undefined) {
   const session = await getSession(context)
 
   if (!session) {

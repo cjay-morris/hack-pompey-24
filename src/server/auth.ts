@@ -19,6 +19,7 @@ declare module "next-auth" {
     user: DefaultSession["user"] & {
       id: string;
     };
+    accessToken: string;
   }
 }
 
@@ -41,8 +42,8 @@ export const authOptions: NextAuthOptions = {
     },
 
     async session({ session, token }) {
-      session.accessToken = token.accessToken;
-      session.user.id = token.username;
+      session.accessToken = token.accessToken as string;
+      session.user.id = token.username as string;
       return session
     }
   },
